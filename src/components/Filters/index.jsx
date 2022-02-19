@@ -1,20 +1,18 @@
-import { Col, Row, Input, Typography, Radio, Select, Tag } from 'antd';
+import { Col, Row, Input, Typography, Radio, Select, Tag, message } from 'antd';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FilterSlice from './FilterSlice';
-// import { priorityFilterChange, searchFilterChange } from '../../redux/actions';
 
 const { Search } = Input;
 
 export default function Filters() {
-  const todoStorage = JSON.parse(localStorage.getItem('TodoApp')).filters
+  const todoStorage = JSON.parse(localStorage.getItem('TodoApp'))?.filters
 
   const [searchText, setSearchText] = useState(todoStorage ? todoStorage.search : '')
   const [filterStatus, setFilterStatus] = useState(todoStorage ? todoStorage.status : 'All')
   const [filterPriorities, setFilterPriorities] = useState(todoStorage ? todoStorage.priorities : [])
 
   const dispatch = useDispatch()
-  console.log(todoStorage)
   const hanleSearchTextChange = (e) => {
     const text = e.target.value
     setSearchText(text)
@@ -25,11 +23,13 @@ export default function Filters() {
     const status = e.target.value
     setFilterStatus(status)
     dispatch(FilterSlice.actions.statusFilterChange(status))
+    message.info(`Filter By Status '${status}'`)
   }
 
   const hanlePriorityChange = value => {
     setFilterPriorities(value)
     dispatch(FilterSlice.actions.prioritiesFilterChange(value))
+    message.info(`Filter By Priority '${value}'`)
   }
 
   return (

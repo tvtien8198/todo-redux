@@ -14,17 +14,17 @@ const saveToLocalStorage = (state) => {
 
 const reHydrateStore = () => {
     if (localStorage.getItem('TodoApp') !== null) {
-      return JSON.parse(localStorage.getItem('TodoApp')); // re-hydrate the store
+      return JSON.parse(localStorage.getItem('TodoApp'));
     }
-};
+}
 
 const localStorageMiddleware = ({ getState }) => {
     return next => action => {
       const result = next(action);
       localStorage.setItem('TodoApp', JSON.stringify(getState()));
       return result;
-    };
-};
+    }
+}
 
 const store = configureStore({
     reducer: {

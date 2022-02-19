@@ -32,14 +32,27 @@ export default createSlice({
         addTodo: (state, action) => {
             state.push(action.payload)
         },
+        deleteTodo: (state, action) => {
+            return state.filter(todo => todo.id !== action.payload)
+        },
+        updateTodo: (state, action) => {
+            const actionPayload = action.payload
+            return state.map(todo => 
+                todo.id === actionPayload.id 
+                ? {...todo, name: actionPayload.name, priority: actionPayload.priority} 
+                : todo)
+            // const todoUpdating = state.find(todo => todo.id === action.payload.id)
+            // if(todoUpdating) {
+            //     todoUpdating.name = action.payload.name
+            //     todoUpdating.priority = action.payload.priority
+            // }
+        },
         toggleTodoStatus: (state, action) => {
             const currentTodo = state.find(todo => todo.id === action.payload);
             if (currentTodo) {
                 currentTodo.completed = !currentTodo.completed;
             }
-        },
-        deleteTodo: (state, action) => {
-            return state.filter(todo => todo.id !== action.payload)
         }
+        
     }
 })
